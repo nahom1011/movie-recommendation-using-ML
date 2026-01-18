@@ -1,38 +1,65 @@
-# TMDB Movie Recommendation System
+# 🎬 Advanced AI Movie & TV Recommender
 
-This application is a smart movie and TV show recommender engine powered by the **TMDB (The Movie Database) API**. It uses Machine Learning to suggest titles similar to the ones you like.
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b)
+![API](https://img.shields.io/badge/TMDB-API-green)
+
+A "Senior-Level" Content-Based Recommendation System that goes beyond simple genre matching. This application uses **Natural Language Processing (NLP)** and **Cosine Similarity** to analyze the "DNA" of a movie or TV show—including its cast, director, keywords, and plot overview—to find semantically similar content.
 
 ## 🚀 Key Features
 
-*   **Live Data**: Fetches the latest "Popular" and "Top Rated" movies and TV shows directly from TMDB. No outdated CSV files!
-*   **Smart Recommendations**: Uses **Content-Based Filtering** (Cosine Similarity) to find similar titles based on their **Overview** (plot) and **Genres**.
-*   **Weighted Ratings**: Ranks recommendations using the IMDb weighted rating formula to ensure you see high-quality content, not just obscure matches.
-*   **Rich UI**:
-    *   some beautiful **Poster Grids** for browsing.
-    *   **Detailed View** with Release Year, Rating, and Plot Summary.
-    *   **Search** functionality to find specific titles in the loaded database.
-*   **Discovery**: a "Discover by Genre" mode to find the best-rated content in specific categories (e.g., Action, Comedy).
+*   **🔍 Dynamic Search**: No longer limited to a static dataset. You can search for **any** movie or TV show (e.g., *Inception*, *The Walking Dead*, *Joker*).
+*   **🧠 Advanced "Metadata Soup"**: The AI mimics a human understanding of content by analyzing:
+    *   **Keywords**: Specific themes (e.g., "time travel", "apocalypse", "mental illness").
+    *   **Cast**: Top actors (e.g., "Keanu Reeves", "Leonardo DiCaprio").
+    *   **Director/Creator**: The visionary behind the work.
+    *   **Genres**: Broad categories.
+    *   **Overview**: Plot description.
+*   **⚡ Real-Time Indexing**: If you search for a title that isn't in the database, the system fetches it live from the TMDB API, builds its profile, and computes matches on the fly.
+*   **🎨 Modern UI**: Features a clean, dual-section interface with detailed content profiles and poster-based recommendation grids.
 
-## 🛠️ How It Works
+## 🛠️ Installation & Setup
 
-1.  **Data Ingestion**: On startup, the app calls the TMDB API to download a fresh batch of movies and TV shows.
-2.  **Processing**: It creates a "metadata soup" for each title (combining the plot description and genres).
-3.  **Machine Learning**: It uses `CountVectorizer` to convert this text into numbers and calculates the **Cosine Similarity** between every pair of titles.
-4.  **Ranking**: When you select a movie, it looks up the most similar titles, filters them (e.g., by type), and then ranks them by their Weighted Rating.
+### 1. Clone the Repository
+```bash
+git clone <your-repo-url>
+cd movie-recommendation-using-ML
+```
 
-## 📦 How to Run
+### 2. Install Dependencies
+Make sure you have Python installed. Then run:
+```bash
+pip install -r requirements.txt
+```
 
-1.  **Install Requirements**:
-    ```bash
-    pip install -r requirements.txt
+### 3. API Configuration (Crucial!)
+You need a **TMDB API Key** to fetch data.
+1.  Get your key from [The Movie Database (TMDB)](https://www.themoviedb.org/documentation/api).
+2.  Create a file named `.env` in the root directory.
+3.  Add your key inside:
+    ```env
+    TMDB_API_KEY=your_actual_api_key_here
     ```
-2.  **Run the App**:
-    ```bash
-    streamlit run app.py
-    ```
 
-## 🔑 Configuration
+### 4. Run the App
+```bash
+streamlit run app.py
+```
 
-The application uses a TMDB API Key to fetch data.
-*   **Default Key**: A valid key is currently hardcoded in `app.py` for demonstration.
-*   **Custom Key**: You can modify `load_engine()` in `app.py` to use your own key.
+## 🧠 How It Works
+
+1.  **Data Fetching**: The `TMDBClient` fetches metadata (Cast, Crew, Keywords) from the API.
+2.  **Soup Creation**: The `RecommendationEngine` combines all text features into a single string (the "soup").
+    *   *Example Soup for 'Inception'*: "adventure sciencefiction action christophernolan leonardodicaprio josephgordon-levitt elliotpage dream subconscious thief..."
+3.  **Vectorization**: `CountVectorizer` converts this text soup into a numerical matrix.
+4.  **Similarity**: `Cosine Similarity` calculates the angle between vectors to determine how closely related two titles are.
+
+## � Project Structure
+
+*   `app.py`: Main Streamlit application and UI logic.
+*   `recommendation_system.py`: The core AI engine handling data processing and similarity math.
+*   `requirements.txt`: List of python dependencies.
+*   `.env`: (Ignored by Git) Stores your API credentials securely.
+
+---
+*Powered by TMDB API.*
